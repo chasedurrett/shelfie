@@ -9,7 +9,7 @@ class Product extends Component {
         <div>${this.props.price}</div>
         <div>
           <button onClick={() => this.props.deleteProduct(this.props.id)}>Delete</button>
-          <button>Edit</button>
+          <button onClick={() => this.props.toggleEdit()}>Edit</button>
         </div>
       </div>
     );

@@ -19,7 +19,7 @@ class Dashboard extends Component {
     const inventory = this.props.inventory.map((e, i) => {
       return (
         <div key={i} className="product-container">
-          <Product deleteProduct={this.deleteProduct} img={e.img} name={e.name} price={e.price} id={e.id}/>
+          <Product toggleEdit={this.props.toggleEdit} deleteProduct={this.deleteProduct} img={e.img} name={e.name} price={e.price} id={e.id}/>
         </div>
       );
     });

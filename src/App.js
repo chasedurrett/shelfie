@@ -11,18 +11,29 @@ class App extends Component {
     this.state = {
       inventory: [],
       currentProduct: {},
-      isEditing: false
+      isEditing: false,
     };
     this.componentDidMount = this.componentDidMount.bind(this);
+    this.toggleEdit = this.toggleEdit.bind(this);
   }
 
   componentDidMount() {
+    this.getInventory();
+  }
+
+  getInventory() {
     axios
       .get("/api/inventory")
       .then((res) => {
         this.setState({ inventory: res.data });
       })
       .catch((err) => console.log(err));
+  }
+
+  toggleEdit() {
+    this.setState({
+      isEditing: !this.state.isEditing,
+    });
   }
 
   render() {
@@ -32,12 +43,15 @@ class App extends Component {
         <div className="dashboard-container">
           <Dashboard
             inventory={this.state.inventory}
-            getInventoryMethod={this.componentDidMount} 
-
+            getInventoryMethod={this.componentDidMount}
+            toggleEdit={this.toggleEdit}
           />
         </div>
         <div className="form-container">
-          <Form getInventoryMethod={this.componentDidMount} currentProduct={this.state.currentProduct}/>
+          <Form
+            getInventoryMethod={this.getInventory}
+            currentProduct={this.state.currentProduct}
+          />
         </div>
       </div>
     );

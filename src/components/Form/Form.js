@@ -9,7 +9,6 @@ class Form extends Component {
       name: "",
       price: 0,
       currentProductId: 0,
-      isEditing: false,
     };
   }
 
@@ -20,7 +19,6 @@ class Form extends Component {
         name: this.props.name,
         price: this.props.price,
         currentProductId: this.props.id,
-        isEditing: true,
       });
     }
     console.log(this.state);
@@ -33,7 +31,6 @@ class Form extends Component {
     this.props.getInventoryMethod();
     this.resetState();
   }
-
   handleURL(val) {
     this.setState({
       img: val,
@@ -81,17 +78,19 @@ class Form extends Component {
               className="form-inputs"
             ></input>
           </div>
-          <div className="form-buttons-container">
-            <button onClick={() => this.resetState()} className="form-buttons">
+            {!this.props.isEditing ? (
+              <div className="form-buttons-container">
+              <button onClick={() => this.resetState()} className="form-buttons">
               Cancel
             </button>
             <button
-              onClick={() => this.addToInventory()}
-              className="form-buttons"
-            >
-              Add to Inventory
-            </button>
-          </div>
+              onClick={() => this.addToInventory()} className="form-buttons">Add to Inventory</button>
+              </div>
+            ) : (
+              <div className="form-buttons-container">
+              <button>Save Changes</button>
+              </div>
+            )}
         </form>
       </div>
     );
