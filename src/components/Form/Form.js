@@ -1,53 +1,97 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 class Form extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       img: "",
       name: "",
-      price: "",
+      price: 0,
+      currentProductId: 0,
+      isEditing: false,
     };
   }
 
+  componentDidUpdate(prevP, prevS) {
+    if (prevP !== this.props) {
+      this.setState({
+        img: this.props.img,
+        name: this.props.name,
+        price: this.props.price,
+        currentProductId: this.props.id,
+        isEditing: true,
+      });
+    }
+    console.log(this.state);
+  }
 
-  handleURL(val){
-      this.setState({
-          img: val
-      })
+  addToInventory() {
+    const { img, name, price } = this.state;
+    const body = { img, name, price };
+    axios.post("/api/product", body);
+    this.props.getInventoryMethod();
+    this.resetState();
   }
-  handleProdName(val){
-      this.setState({
-          name: val
-      })
+
+  handleURL(val) {
+    this.setState({
+      img: val,
+    });
   }
-  handlePrice(val){
-      this.setState({
-          price: val
-      })
+  handleProdName(val) {
+    this.setState({
+      name: val,
+    });
   }
-  resetState(){
-      this.setState({
-          img: this.state.img,
-          name: this.state.name,
-          price: this.state.price
-      })
+  handlePrice(val) {
+    this.setState({
+      price: val,
+    });
+  }
+  resetState() {
+    this.setState({
+      img: this.state.img,
+      name: this.state.name,
+      price: this.state.price,
+    });
   }
 
   render() {
-    console.log(this.state)
     return (
       <div>
         <form>
-        <div className="form-inputs-container">
-          <input name="img" onChange={e => this.handleURL(e.target.value)} className="form-inputs"></input>
-          <input name="name" onChange={e => this.handleProdName(e.target.value)} className="form-inputs"></input>
-          <input name="price" onChange={e => this.handlePrice(e.target.value)} className="form-inputs"></input>
-        </div>
-        <div className='form-buttons-container'>
-            <button onClick={() => this.resetState()} className='form-buttons'>Cancel</button>
-            <button className='form-buttons'>Add to Inventory</button>
-        </div>
+          <div className="form-inputs-container">
+            <h1>Image URL:</h1>
+            <input
+              name="img"
+              onChange={(e) => this.handleURL(e.target.value)}
+              className="form-inputs"
+            ></input>
+            <h1>Product Name:</h1>
+            <input
+              name="name"
+              onChange={(e) => this.handleProdName(e.target.value)}
+              className="form-inputs"
+            ></input>
+            <h1>Price:</h1>
+            <input
+              name="price"
+              onChange={(e) => this.handlePrice(e.target.value)}
+              className="form-inputs"
+            ></input>
+          </div>
+          <div className="form-buttons-container">
+            <button onClick={() => this.resetState()} className="form-buttons">
+              Cancel
+            </button>
+            <button
+              onClick={() => this.addToInventory()}
+              className="form-buttons"
+            >
+              Add to Inventory
+            </button>
+          </div>
         </form>
       </div>
     );
