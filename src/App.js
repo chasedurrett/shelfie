@@ -51,6 +51,8 @@ class App extends Component {
           <Form
             getInventoryMethod={this.getInventory}
             currentProduct={this.state.currentProduct}
+            isEditing={this.state.isEditing}
+            toggleEdit={this.toggleEdit}
           />
         </div>
       </div>

@@ -55,6 +55,7 @@ class Form extends Component {
   }
 
   render() {
+    console.log(this.state.isEditing)
     return (
       <div>
         <form>
@@ -88,6 +89,9 @@ class Form extends Component {
               </div>
             ) : (
               <div className="form-buttons-container">
+                <button onClick={() => this.toggleEdit()} className="form-buttons">
+              Cancel
+            </button>
               <button>Save Changes</button>
               </div>
             )}
